@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jat Maomo Tech Tools</title>
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #50c878;
+            --background-color: #f0f4f8;
+            --text-color: #333333;
+            --card-background: #ffffff;
+            --calculator-bg: #2c3e50;
+            --calculator-button: #34495e;
+            --calculator-text: #ecf0f1;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        #search-container {
+            margin-top: 1rem;
+        }
+        #search-input {
+            padding: 0.5rem;
+            width: 60%;
+            max-width: 300px;
+            border: none;
+            border-radius: 20px 0 0 20px;
+        }
+        #search-button {
+            padding: 0.5rem 1rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 0 20px 20px 0;
+            cursor: pointer;
+        }
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .tool-container {
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 1rem;
+            padding: 1.5rem;
+            width: calc(33.33% - 2rem);
+            min-width: 300px;
+            box-sizing: border-box;
+            transition: transform 0.3s ease;
+        }
+        .tool-container:hover {
+            transform: translateY(-5px);
+        }
+        .tool-container h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        input, button, select, textarea {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #3a7bc8;
+        }
+        ul {
+            padding-left: 1.5rem;
+        }
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        #colorDisplay, #qrCode {
+            width: 100%;
+            height: 100px;
+            margin-top: 0.5rem;
+            border: 1px solid #ddd;
+        }
+        
+        /* Calculator Styles */
+        #calculator {
+            background-color: var(--calculator-bg);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+        #calcDisplay {
+            background-color: var(--calculator-text);
+            color: var(--calculator-bg);
+            font-size: 1.5rem;
+            text-align: right;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .calc-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+        .calc-buttons button {
+            background-color: var(--calculator-button);
+            color: var(--calculator-text);
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            padding: 0.7rem;
+            transition: background-color 0.3s;
+        }
+        .calc-buttons button:hover {
+            background-color: #2c3e50;
+        }
+        .calc-buttons button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Jat Maomo Tech Tools</h1>
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Search tools...">
+            <button id="search-button">Search</button>
+        </div>
+    </header>
+
+    <main id="tools-container">
+        <div class="tool-container" data-tool="calculator">
+            <h3>Calculator</h3>
+            <div id="calculator">
+                <input type="text" id="calcDisplay" readonly>
+                <div class="calc-buttons">
+                    <button onclick="appendToDisplay('7')">7</button>
+                    <button onclick="appendToDisplay('8')">8</button>
+                    <button onclick="appendToDisplay('9')">9</button>
+                    <button onclick="appendToDisplay('+')">+</button>
+                    <button onclick="appendToDisplay('4')">4</button>
+                    <button onclick="appendToDisplay('5')">5</button>
+                    <button onclick="appendToDisplay('6')">6</button>
+                    <button onclick="appendToDisplay('-')">-</button>
+                    <button onclick="appendToDisplay('1')">1</button>
+                    <button onclick="appendToDisplay('2')">2</button>
+                    <button onclick="appendToDisplay('3')">3</button>
+                    <button onclick="appendToDisplay('*')">×</button>
+                    <button onclick="appendToDisplay('0')">0</button>
+                    <button onclick="appendToDisplay('.')">.</button>
+                    <button onclick="calculateResult()">=</button>
+                    <button onclick="appendToDisplay('/')">÷</button>
+                    <button onclick="clearDisplay()" style="grid-column: span 2;">Clear</button>
+                    <button onclick="backspace()">⌫</button>
+                    <button onclick="appendToDisplay('(')">(</button>
+                    <button onclick="appendToDisplay(')')">)</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="tool-container" data-tool="age calculator">
+            <h3>Age Calculator</h3>
+            <input type="date" id="birthDate">
+            <button onclick="calculateAge()">Calculate Age</button>
+            <p id="ageResult"></p>
+        </div>
+
+        <div class="tool-container" data-tool="todo list">
+            <h3>Todo List</h3>
+            <input type="text" id="todoInput" placeholder="Enter a task">
+            <button onclick="addTodo()">Add Task</button>
+            <ul id="todoList"></ul>
+        </div>
+
+        <div class="tool-container" data-tool="text to speech">
+            <h3>Text to Speech</h3>
+            <textarea id="textToSpeak" rows="4" placeholder="Enter text to speak"></textarea>
+            <button onclick="speakText()">Speak</button>
+        </div>
+
+        <div class="tool-container" data-tool="speech to text">
+            <h3>Speech to Text</h3>
+            <button onclick="startSpeechRecognition()">Start Listening</button>
+            <p id="speechResult"></p>
+        </div>
+
+        <div class="tool-container" data-tool="background generator">
+            <h3>Background Generator</h3>
+            <input type="color" id="color1" value="#ff0000">
+            <input type="color" id="color2" value="#0000ff">
+            <button onclick="generateBackground()">Generate</button>
+            <div id="colorDisplay"></div>
+        </div>
+
+        <div class="tool-container" data-tool="password generator">
+            <h3>Password Generator</h3>
+            <input type="number" id="passwordLength" min="8" max="32" value="12">
+            <button onclick="generatePassword()">Generate Password</button>
+            <p id="generatedPassword"></p>
+        </div>
+
+        <div class="tool-container" data-tool="unit converter">
+            <h3>Unit Converter</h3>
+            <input type="number" id="conversionInput" placeholder="Enter value">
+            <select id="conversionType">
+                <option value="length">Length (m to ft)</option>
+                <option value="temperature">Temperature (°C to °F)</option>
+                <option value="weight">Weight (kg to lb)</option>
+            </select>
+            <button onclick="convert()">Convert</button>
+            <p id="conversionResult"></p>
+        </div>
+
+        <div class="tool-container" data-tool="countdown timer">
+            <h3>Countdown Timer</h3>
+            <input type="number" id="minutes" placeholder="Minutes" min="0">
+            <input type="number" id="seconds" placeholder="Seconds" min="0" max="59">
+            <button onclick="startTimer()">Start</button>
+            <button onclick="stopTimer()">Stop</button>
+            <p id="timerDisplay">00:00</p>
+        </div>
+
+        <div class="tool-container" data-tool="qr code generator">
+            <h3>QR Code Generator</h3>
+            <input type="text" id="qrInput" placeholder="Enter text or URL">
+            <button onclick="generateQR()">Generate QR Code</button>
+            <div id="qrCode"></div>
+        </div>
+
+        <div class="tool-container" data-tool="bmi calculator">
+            <h3>BMI Calculator</h3>
+            <input type="number" id="weight" placeholder="Weight (kg)" step="0.1">
+            <input type="number" id="height" placeholder="Height (cm)">
+            <button onclick="calculateBMI()">Calculate BMI</button>
+            <p id="bmiResult"></p>
+        </div>
+
+        <div class="tool-container" data-tool="morse code translator">
+            <h3>Morse Code Translator</h3>
+            <textarea id="morseInput" rows="4" placeholder="Enter text or Morse code"></textarea>
+            <button onclick="translateMorse()">Translate</button>
+            <p id="morseResult"></p>
+        </div>
+
+        <div class="tool-container" data-tool="pomodoro timer">
+            <h3>Pomodoro Timer</h3>
+            <button onclick="startPomodoro()">Start Pomodoro</button>
+            <button onclick="startBreak()">Start Break</button>
+            <p id="pomodoroDisplay">25:00</p>
+        </div>
+
+        <div class="tool-container" data-tool="currency converter">
+            <h3>Currency Converter</h3>
+            <input type="number" id="currencyAmount" placeholder="Enter amount">
+            <select id="fromCurrency">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+                <option value="JPY">JPY</option>
+            </select>
+            <select id="toCurrency">
+                <option value="EUR">EUR</option>
+                <option value="USD">USD</option>
+                <option value="GBP">GBP</option>
+                <option value="JPY">JPY</option>
+            </select>
+            <button onclick="convertCurrency()">Convert</button>
+            <p id="currencyResult"></p>
+        </div>
+
+        <div class="tool-container" data-tool="tip calculator">
+            <h3>Tip Calculator</h3>
+            <input type="number" id="billAmount" placeholder="Bill amount">
+            <input type="number" id="tipPercentage" placeholder="Tip percentage">
+            <button onclick="calculateTip()">Calculate Tip</button>
+            <p id="tipResult"></p>
+        </div>
+
+        <div class="tool-container" data-tool="random quote generator">
+            <h3>Random Quote Generator</h3>
+            <button onclick="generateQuote()">Generate Quote</button>
+            <p id="quoteResult"></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Jat Maomo Tech Tools. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        // Calculator
+        function appendToDisplay(value) {
+            document.getElementById('calcDisplay').value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById('calcDisplay').value = '';
+        }
+
+        function calculateResult() {
+            try {
+                document.getElementById('calcDisplay').value = eval(document.getElementById('calcDisplay').value);
+            } catch (error) {
+                document.getElementById('calcDisplay').value = 'Error';
+            }
+        }
+
+        function backspace() {
+            let currentValue = document.getElementById('calcDisplay').value;
+            document.getElementById('calcDisplay').value = currentValue.slice(0, -1);
+        }
+
+        // Age Calculator
+        function calculateAge() {
+            const birthDate = new Date(document.getElementById('birthDate').value);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            document.getElementById('ageResult').textContent = `Your age is ${age} years.`;
+        }
+
+        // Todo List
+        function addTodo() {
+            const todoInput = document.getElementById('todoInput');
+            const todoList = document.getElementById('todoList');
+            if (todoInput.value !== '') {
+                const li = document.createElement('li');
+                li.textContent = todoInput.value;
+                todoList.appendChild(li);
+                todoInput.value = '';
+            }
+        }
+
+        // Text to Speech
+        function speakText() {
+            const text = document.getElementById('textToSpeak').value;
+            const utterance = new SpeechSynthesisUtterance(text);
+            speechSynthesis.speak(utterance);
+        }
+
+        // Speech to Text
+        function startSpeechRecognition() {
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'en-US';
+            recognition.start();
+            recognition.onresult = function(event) {
+                document.getElementById('speechResult').textContent = event.results[0][0].transcript;
+            };
+        }
+
+        // Background Generator
+        function generateBackground() {
+            const color1 = document.getElementById('color1').value;
+            const color2 = document.getElementById('color2').value;
+            const colorDisplay = document.getElementById('colorDisplay');
+            colorDisplay.style.background = `linear-gradient(to right, ${color1}, ${color2})`;
+        }
+
+        // Password Generator
+        function generatePassword() {
+            const length = document.getElementById('passwordLength').value;
+            const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                password += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+            document.getElementById('generatedPassword').textContent = password;
+        }
+
+        // Unit Converter
+        function convert() {
+            const input = parseFloat(document.getElementById('conversionInput').value);
+            const type = document.getElementById('conversionType').value;
+            let result;
+
+            switch (type) {
+                case 'length':
+                    result = (input * 3.28084).toFixed(2) + ' ft';
+                    break;
+                case 'temperature':
+                    result = ((input * 9/5) + 32).toFixed(2) + ' °F';
+                    break;
+                case 'weight':
+                    result = (input * 2.20462).toFixed(2) + ' lb';
+                    break;
+            }
+
+            document.getElementById('conversionResult').textContent = result;
+        }
+
+        // Countdown Timer
+        let timerInterval;
+        function startTimer() {
+            let minutes = parseInt(document.getElementById('minutes').value) || 0;
+            let seconds = parseInt(document.getElementById('seconds').value) || 0;
+            let totalSeconds = minutes * 60 + seconds;
+
+            clearInterval(timerInterval);
+
+            timerInterval = setInterval(() => {
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('timerDisplay').textContent = "Time's up!";
+                    return;
+                }
+
+                let minutesLeft = Math.floor(totalSeconds / 60);
+                let secondsLeft = totalSeconds % 60;
+
+                document.getElementById('timerDisplay').textContent = 
+                    `${minutesLeft.toString().padStart(2, '0')}:${secondsLeft.toString().padStart(2, '0')}`;
+
+                totalSeconds--;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        // QR Code Generator
+        function generateQR() {
+            const qrInput = document.getElementById('qrInput').value;
+            const qrCode = document.getElementById('qrCode');
+            qrCode.innerHTML = '';
+            new QRCode(qrCode, qrInput);
+        }
+
+        // BMI Calculator
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value) / 100; // convert cm to m
+            const bmi = weight / (height * height);
+            let category;
+
+            if (bmi < 18.5) category = 'Underweight';
+            else if (bmi < 25) category = 'Normal weight';
+            else if (bmi < 30) category = 'Overweight';
+            else category = 'Obese';
+
+            document.getElementById('bmiResult').textContent = `Your BMI is ${bmi.toFixed(1)} (${category})`;
+        }
+
+        // Morse Code Translator
+        const morseCode = {
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+            'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+            'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+            'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+            'Y': '-.--', 'Z': '--..', '0': '-----', '1': '.----', '2': '..---',
+            '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...',
+            '8': '---..', '9': '----.', '.': '.-.-.-', ',': '--..--', '?': '..--..'
+        };
+
+        function translateMorse() {
+            const input = document.getElementById('morseInput').value.toUpperCase();
+            let result = '';
+
+            if (input.includes('.') || input.includes('-')) {
+                // Morse to text
+                const words = input.split('   ');
+                for (let word of words) {
+                    const letters = word.split(' ');
+                    for (let letter of letters) {
+                        for (let [char, code] of Object.entries(morseCode)) {
+                            if (code === letter) {
+                                result += char;
+                                break;
+                            }
+                        }
+                    }
+                    result += ' ';
+                }
+            } else {
+                // Text to Morse
+                for (let char of input) {
+                    if (char === ' ') {
+                        result += '   ';
+                    } else if (morseCode[char]) {
+                        result += morseCode[char] + ' ';
+                    }
+                }
+            }
+
+            document.getElementById('morseResult').textContent = result.trim();
+        }
+
+        // Pomodoro Timer
+        let pomodoroInterval;
+        function startPomodoro() {
+            clearInterval(pomodoroInterval);
+            let totalSeconds = 25 * 60;
+
+            pomodoroInterval = setInterval(() => {
+                if (totalSeconds <= 0) {
+                    clearInterval(pomodoroInterval);
+                    document.getElementById('pomodoroDisplay').textContent = "Time's up!";
+                    return;
+                }
+
+                let minutes = Math.floor(totalSeconds / 60);
+                let seconds = totalSeconds % 60;
+
+                document.getElementById('pomodoroDisplay').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                totalSeconds--;
+            }, 1000);
+        }
+
+        function startBreak() {
+            clearInterval(pomodoroInterval);
+            let totalSeconds = 5 * 60;
+
+            pomodoroInterval = setInterval(() => {
+                if (totalSeconds <= 0) {
+                    clearInterval(pomodoroInterval);
+                    document.getElementById('pomodoroDisplay').textContent = "Break's over!";
+                    return;
+                }
+
+                let minutes = Math.floor(totalSeconds / 60);
+                let seconds = totalSeconds % 60;
+
+                document.getElementById('pomodoroDisplay').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                totalSeconds--;
+            }, 1000);
+        }
+
+        // Currency Converter
+        function convertCurrency() {
+            const amount = parseFloat(document.getElementById('currencyAmount').value);
+            const fromCurrency = document.getElementById('fromCurrency').value;
+            const toCurrency = document.getElementById('toCurrency').value;
+
+            // This is a simplified conversion. In a real application, you would use an API to get current exchange rates.
+            const exchangeRates = {
+                USD: { EUR: 0.85, GBP: 0.75, JPY: 110 },
+                EUR: { USD: 1.18, GBP: 0.88, JPY: 129 },
+                GBP: { USD: 1.33, EUR: 1.14, JPY: 147 },
+                JPY: { USD: 0.0091, EUR: 0.0078, GBP: 0.0068 }
+            };
+
+            const rate = exchangeRates[fromCurrency][toCurrency];
+            const result = (amount * rate).toFixed(2);
+
+            document.getElementById('currencyResult').textContent = `${amount} ${fromCurrency} = ${result} ${toCurrency}`;
+        }
+
+        // Tip Calculator
+        function calculateTip() {
+            const billAmount = parseFloat(document.getElementById('billAmount').value);
+            const tipPercentage = parseFloat(document.getElementById('tipPercentage').value);
+
+            const tipAmount = billAmount * (tipPercentage / 100);
+            const totalAmount = billAmount + tipAmount;
+
+            document.getElementById('tipResult').textContent = `Tip: $${tipAmount.toFixed(2)}, Total: $${totalAmount.toFixed(2)}`;
+        }
+
+        // Random Quote Generator
+        const quotes = [
+            "The only way to do great work is to love what you do. - Steve Jobs",
+            "Life is what happens when you're busy making other plans. - John Lennon",
+            "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",
+            "Success is not final, failure is not fatal: it is the courage to continue that counts. - Winston Churchill",
+            "In the end, it's not the years in your life that count. It's the life in your years. - Abraham Lincoln"
+        ];
+
+        function generateQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            document.getElementById('quoteResult').textContent = quotes[randomIndex];
+        }
+
+        // Search functionality
+        document.getElementById('search-button').addEventListener('click', function() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const tools = document.querySelectorAll('.tool-container');
+
+            tools.forEach(tool => {
+                const toolName = tool.getAttribute('data-tool').toLowerCase();
+                if (toolName.includes(searchTerm)) {
+                    tool.style.display = 'block';
+                } else {
+                    tool.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
